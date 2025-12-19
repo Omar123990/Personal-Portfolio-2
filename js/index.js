@@ -6,6 +6,8 @@ const btnTheme = document.querySelector("#theme-toggle-button");
 const htmlTheme = document.documentElement;
 const filterButtons = document.querySelectorAll(".portfolio-filter");
 const portfolioItems = document.querySelectorAll(".portfolio-item");
+const navLinks = document.querySelectorAll(".nav-links a");
+const sections = document.querySelectorAll("section");
 
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "dark") {
@@ -21,10 +23,36 @@ btnTheme.addEventListener("click", () => {
   localStorage.setItem("theme", isDark ? "dark" : "light");
 });
 
+window.addEventListener("scroll", () => {
+  let currentSection = "";
+
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop - 120;
+    const sectionHeight = section.offsetHeight;
+
+    if (
+      window.scrollY >= sectionTop &&
+      window.scrollY < sectionTop + sectionHeight
+    ) {
+      currentSection = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.remove("text-primary", "font-bold");
+    link.classList.add("text-slate-600", "dark:text-slate-300");
+
+    if (link.getAttribute("href") === `#${currentSection}`) {
+      link.classList.add("text-primary", "font-bold");
+      link.classList.remove("text-slate-600", "dark:text-slate-300");
+    }
+  });
+});
+
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filter = button.dataset.filter;
-    
+
     filterButtons.forEach((btn) => {
       btn.classList.remove(
         "active",
