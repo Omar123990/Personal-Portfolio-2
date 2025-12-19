@@ -1,12 +1,11 @@
 // ^ Write your JavaScript code here
 "use strict";
 
-
 const scrollBtn = document.querySelector("#scroll-to-top");
 const btnTheme = document.querySelector("#theme-toggle-button");
 const htmlTheme = document.documentElement;
-
-
+const filterButtons = document.querySelectorAll(".portfolio-filter");
+const portfolioItems = document.querySelectorAll(".portfolio-item");
 
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "dark") {
@@ -15,11 +14,61 @@ if (savedTheme === "dark") {
 } else {
   htmlTheme.classList.remove("dark");
   btnTheme.setAttribute("aria-pressed", "false");
-};
+}
 btnTheme.addEventListener("click", () => {
   const isDark = htmlTheme.classList.toggle("dark");
   btnTheme.setAttribute("aria-pressed", isDark);
   localStorage.setItem("theme", isDark ? "dark" : "light");
+});
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter;
+    
+    filterButtons.forEach((btn) => {
+      btn.classList.remove(
+        "active",
+        "bg-linear-to-r",
+        "from-primary",
+        "to-secondary",
+        "text-white"
+      );
+      btn.classList.add(
+        "bg-white",
+        "dark:bg-slate-800",
+        "text-slate-600",
+        "dark:text-slate-300"
+      );
+      btn.setAttribute("aria-pressed", "false");
+    });
+
+    button.classList.add(
+      "active",
+      "bg-linear-to-r",
+      "from-primary",
+      "to-secondary",
+      "text-white"
+    );
+    button.classList.remove(
+      "bg-white",
+      "dark:bg-slate-800",
+      "text-slate-600",
+      "dark:text-slate-300"
+    );
+    button.setAttribute("aria-pressed", "true");
+
+    portfolioItems.forEach((item) => {
+      const category = item.dataset.category;
+
+      if (filter === "all" || category === filter) {
+        item.classList.remove("hidden");
+        item.classList.add("block");
+      } else {
+        item.classList.add("hidden");
+        item.classList.remove("block");
+      }
+    });
+  });
 });
 
 window.addEventListener("scroll", () => {
