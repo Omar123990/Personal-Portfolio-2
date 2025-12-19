@@ -8,6 +8,9 @@ const filterButtons = document.querySelectorAll(".portfolio-filter");
 const portfolioItems = document.querySelectorAll(".portfolio-item");
 const navLinks = document.querySelectorAll(".nav-links a");
 const sections = document.querySelectorAll("section");
+const settingsToggle = document.getElementById("settings-toggle");
+const settingsSidebar = document.getElementById("settings-sidebar");
+const closeSettings = document.getElementById("close-settings");
 
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "dark") {
@@ -98,6 +101,34 @@ filterButtons.forEach((button) => {
     });
   });
 });
+ settingsToggle.addEventListener("click", () => {
+    const isOpen = settingsSidebar.classList.contains("translate-x-0");
+
+    if (isOpen) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  // زرار الإغلاق X
+  closeSettings.addEventListener("click", closeSidebar);
+
+  function openSidebar() {
+    settingsSidebar.classList.remove("translate-x-full");
+    settingsSidebar.classList.add("translate-x-0");
+
+    settingsSidebar.setAttribute("aria-hidden", "false");
+    settingsToggle.setAttribute("aria-expanded", "true");
+  }
+
+  function closeSidebar() {
+    settingsSidebar.classList.remove("translate-x-0");
+    settingsSidebar.classList.add("translate-x-full");
+
+    settingsSidebar.setAttribute("aria-hidden", "true");
+    settingsToggle.setAttribute("aria-expanded", "false");
+  }
 
 window.addEventListener("scroll", () => {
   if (window.scrollY > 300) {
