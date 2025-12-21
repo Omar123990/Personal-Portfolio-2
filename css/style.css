@@ -19,3 +19,6 @@ button.btn-color:hover{
   border: 3px solid #6366F1;
   transform: scale(1.05);
 }
+.nav-links.active {
+  display: flex;
+}

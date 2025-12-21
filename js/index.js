@@ -32,6 +32,8 @@ const profileGradientRings = document.querySelectorAll(
 );
 const animatedRings = document.querySelectorAll("#animation");
 const animatedRings2 = document.querySelectorAll("#animation2");
+const mobileMenuBtn = document.querySelector("#mobile-menu-toggle");
+const navLink = document.querySelector(".nav-links");
 
 if (savedTheme === "dark") {
   htmlTheme.classList.add("dark");
@@ -285,3 +287,10 @@ document.addEventListener("DOMContentLoaded", () => {
     applyTheme(ThemeSaved);
   }
 });
+mobileMenuBtn.onclick = () => {
+  if (navLink.className.includes("active")) {
+    navLink.className = navLink.className.replace(" active", "");
+  } else {
+    navLink.className += " active";
+  }
+};
