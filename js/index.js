@@ -34,6 +34,9 @@ const animatedRings = document.querySelectorAll("#animation");
 const animatedRings2 = document.querySelectorAll("#animation2");
 const mobileMenuBtn = document.querySelector("#mobile-menu-toggle");
 const navLink = document.querySelector(".nav-links");
+const fontButtons = document.querySelectorAll(".font-option");
+const resetBtn = document.getElementById("reset-settings");
+
 
 if (savedTheme === "dark") {
   htmlTheme.classList.add("dark");
@@ -294,3 +297,64 @@ mobileMenuBtn.onclick = () => {
     navLink.className += " active";
   }
 };
+fontButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const font = button.dataset.font;
+
+    document.body.style.fontFamily = font;
+
+    fontButtons.forEach(btn => btn.setAttribute("aria-checked", "false"));
+    button.setAttribute("aria-checked", "true");
+
+    fontButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    localStorage.setItem("selectedFont", font);
+  });
+});
+
+const savedFont = localStorage.getItem("selectedFont");
+if (savedFont) {
+  document.body.style.fontFamily = savedFont;
+
+  fontButtons.forEach(btn => {
+    if (btn.dataset.font === savedFont) {
+      btn.setAttribute("aria-checked", "true");
+      btn.classList.add("active");
+    } else {
+      btn.setAttribute("aria-checked", "false");
+      btn.classList.remove("active");
+    }
+  });
+}
+
+
+
+resetBtn.addEventListener("click", () => {
+  // 1️⃣ إعادة ضبط الفونت
+  const defaultFont = "tajawal";
+  document.body.style.fontFamily = defaultFont;
+
+  const fontButtons = document.querySelectorAll(".font-option");
+  fontButtons.forEach(btn => {
+    btn.setAttribute("aria-checked", btn.dataset.font === defaultFont ? "true" : "false");
+    btn.classList.toggle("active", btn.dataset.font === defaultFont);
+  });
+
+  localStorage.removeItem("selectedFont");
+
+  // 2️⃣ إعادة ضبط لون الثيم إلى Purple
+  const defaultThemeId = "themePurple";
+  applyTheme(defaultThemeId); // نستخدم الدالة الموجودة مسبقاً
+
+  // إزالة أي active من أزرار الألوان
+  const colorButtons = document.querySelectorAll(".btn-color");
+  colorButtons.forEach(btn => btn.classList.remove("active"));
+
+  // تفعيل زر اللون الافتراضي
+  const defaultColorBtn = document.getElementById("themePurple");
+  if (defaultColorBtn) defaultColorBtn.classList.add("active");
+
+  // إزالة أي قيمة محفوظة في localStorage للثيم
+  localStorage.removeItem("selectedTheme");
+});

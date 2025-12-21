@@ -22,3 +22,11 @@ button.btn-color:hover{
 .nav-links.active {
   display: flex;
 }
+@font-face {
+  font-family: "Cairo";
+  src: url("../fonts/Cairo-Regular.ttf");
+}
+@font-face {
+  font-family: "Alexandria";
+  src: url("../webfonts/Alexandria-VariableFont_wght.ttf");
+}
