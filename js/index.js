@@ -36,7 +36,7 @@ const mobileMenuBtn = document.querySelector("#mobile-menu-toggle");
 const navLink = document.querySelector(".nav-links");
 const fontButtons = document.querySelectorAll(".font-option");
 const resetBtn = document.getElementById("reset-settings");
-
+// start theme button
 if (savedTheme === "dark") {
   htmlTheme.classList.add("dark");
   btnTheme.setAttribute("aria-pressed", "true");
@@ -49,7 +49,8 @@ btnTheme.addEventListener("click", () => {
   btnTheme.setAttribute("aria-pressed", isDark);
   localStorage.setItem("theme", isDark ? "dark" : "light");
 });
-
+// end theme button
+// start  scrollSpy
 window.addEventListener("scroll", () => {
   let currentSection = "";
 
@@ -75,7 +76,8 @@ window.addEventListener("scroll", () => {
     }
   });
 });
-
+// end  scrollSpy
+// start portofolio buttons
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filter = button.dataset.filter;
@@ -125,6 +127,8 @@ filterButtons.forEach((button) => {
     });
   });
 });
+// end portofolio buttons
+// start settings
 settingsToggle.addEventListener("click", () => {
   const isOpen = settingsSidebar.classList.contains("translate-x-0");
 
@@ -152,7 +156,8 @@ function closeSidebar() {
   settingsSidebar.setAttribute("aria-hidden", "true");
   settingsToggle.setAttribute("aria-expanded", "false");
 }
-
+// end settings
+// start scroll to top
 window.addEventListener("scroll", () => {
   if (window.scrollY > 300) {
     scrollBtn.classList.remove("opacity-0", "invisible");
@@ -168,6 +173,8 @@ scrollBtn.addEventListener("click", () => {
     behavior: "smooth",
   });
 });
+// end scroll to top
+// start theme
 const gradients = {
   themeBlue: {
     bgGradientToL: "linear-gradient(to left, #3498db, #85c1e9)",
@@ -283,12 +290,12 @@ buttons.forEach((btn) => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
   const ThemeSaved = localStorage.getItem("selectedTheme");
   if (ThemeSaved) {
     applyTheme(ThemeSaved);
   }
-});
+// end theme
+// start mobile menu
 mobileMenuBtn.onclick = () => {
   if (navLink.className.includes("active")) {
     navLink.className = navLink.className.replace(" active", "");
@@ -296,6 +303,8 @@ mobileMenuBtn.onclick = () => {
     navLink.className += " active";
   }
 };
+// end mobile menu
+// start font
 fontButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const font = button.dataset.font;
@@ -326,7 +335,8 @@ if (savedFont) {
     }
   });
 }
-
+// end font
+// start reset button
 resetBtn.addEventListener("click", () => {
   const defaultFont = "tajawal";
   document.body.style.fontFamily = defaultFont;
@@ -353,3 +363,7 @@ resetBtn.addEventListener("click", () => {
 
   localStorage.removeItem("selectedTheme");
 });
+// end reset button
+// start slider
+
+// end slider
