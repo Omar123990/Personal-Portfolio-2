@@ -36,6 +36,12 @@ const mobileMenuBtn = document.querySelector("#mobile-menu-toggle");
 const navLink = document.querySelector(".nav-links");
 const fontButtons = document.querySelectorAll(".font-option");
 const resetBtn = document.getElementById("reset-settings");
+const carousel = document.querySelector("#testimonials-carousel");
+const cards = document.querySelectorAll(".testimonial-card");
+const nextBtn = document.querySelector("#next-testimonial");
+const prevBtn = document.querySelector("#prev-testimonial");
+const indicators = document.querySelectorAll(".carousel-indicator");
+
 // start theme button
 if (savedTheme === "dark") {
   htmlTheme.classList.add("dark");
@@ -365,5 +371,62 @@ resetBtn.addEventListener("click", () => {
 });
 // end reset button
 // start slider
+let currentIndex = 0;
 
+function cardsPerView() {
+  if (window.innerWidth >= 1024) return 3;
+  if (window.innerWidth >= 640) return 2;
+  return 1;
+}
+
+function maxIndex() {
+  return cards.length - cardsPerView();
+}
+
+function cardWidth() {
+  return cards[0].offsetWidth;
+}
+
+function updateSlider() {
+  if (currentIndex < 0) currentIndex = maxIndex();
+  if (currentIndex > maxIndex()) currentIndex = 0;
+
+  const moveX = currentIndex * cardWidth();
+
+  carousel.style.transform = `translateX(${moveX}px)`;
+
+  indicators.forEach((btn, i) => {
+    const isActive = i === currentIndex;
+    btn.classList.toggle("bg-accent", isActive);
+    btn.classList.toggle("bg-slate-400", !isActive);
+    btn.setAttribute("aria-selected", isActive);
+  });
+}
+
+nextBtn.addEventListener("click", () => {
+  currentIndex++;
+  if (currentIndex > maxIndex()) {
+    currentIndex = 0;
+  }
+  updateSlider();
+});
+
+prevBtn.addEventListener("click", () => {
+  currentIndex--;
+  if (currentIndex < 0) {
+    currentIndex = maxIndex();
+  }
+  updateSlider();
+});
+
+indicators.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    currentIndex = Number(btn.dataset.index);
+    updateSlider();
+  });
+});
+
+window.addEventListener("resize", updateSlider);
+
+updateSlider();
 // end slider
