@@ -41,6 +41,7 @@ const cards = document.querySelectorAll(".testimonial-card");
 const nextBtn = document.querySelector("#next-testimonial");
 const prevBtn = document.querySelector("#prev-testimonial");
 const indicators = document.querySelectorAll(".carousel-indicator");
+const counters = document.querySelectorAll("#statistics-section div.text-5xl");
 
 // start theme button
 if (savedTheme === "dark") {
@@ -430,3 +431,24 @@ window.addEventListener("resize", updateSlider);
 
 updateSlider();
 // end slider
+// Start statistics-section
+counters.forEach(counter => {
+  const targetText = counter.textContent.trim();
+  const target = parseInt(targetText.replace(/\D/g, ''));
+  let count = 0;
+  const duration = 2000;
+  const stepTime = 50;
+  const steps = duration / stepTime; 
+  const increment = target / steps;
+
+  const interval = setInterval(() => {
+    count += increment;
+    if (count >= target) {
+      counter.textContent = target;
+      clearInterval(interval);
+    } else {
+      counter.textContent = Math.ceil(count)
+    }
+  }, stepTime);
+});
+// end statistics-section
