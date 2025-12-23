@@ -2,7 +2,7 @@
 
 const scrollBtn = document.querySelector("#scroll-to-top");
 const btnTheme = document.querySelector("#theme-toggle-button");
-const htmlTheme = document.documentElement;
+const htmlTheme = document.querySelector("html");
 const filterButtons = document.querySelectorAll(".portfolio-filter");
 const portfolioItems = document.querySelectorAll(".portfolio-item");
 const navLinks = document.querySelectorAll(".nav-links a");
