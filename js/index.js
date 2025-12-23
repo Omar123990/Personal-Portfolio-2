@@ -44,9 +44,17 @@ const indicators = document.querySelectorAll(".carousel-indicator");
 const counters = document.querySelectorAll("#statistics-section div.text-5xl");
 
 // start theme button
+if (savedTheme === "dark") {
+  htmlTheme.classList.add("dark");
+  btnTheme.setAttribute("aria-pressed", "true");
+} else {
+  htmlTheme.classList.remove("dark");
+  btnTheme.setAttribute("aria-pressed", "false");
+}
 btnTheme.addEventListener("click", () => {
-  htmlTheme.classList.toggle("dark");
-  localStorage.setItem("theme", htmlTheme.classList.contains("dark") ? "dark" : "light");
+  const isDark = htmlTheme.classList.toggle("dark");
+  btnTheme.setAttribute("aria-pressed", isDark);
+  localStorage.setItem("theme", isDark ? "dark" : "light");
 });
 // end theme button
 // start  scrollSpy
