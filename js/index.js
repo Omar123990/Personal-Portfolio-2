@@ -18,12 +18,8 @@ const textSecondary = document.querySelectorAll(".text-secondary");
 const bgLinearToBR = document.querySelectorAll(".bg-linear-to-br");
 const bgGradientSmall = document.querySelectorAll(".w-16.bg-gradient-to-br");
 const textPrimaryBold = document.querySelectorAll(".text-primary.font-bold");
-const borderedElements = document.querySelectorAll(
-  ".border-white, .dark\\:border-slate-900, .border-primary, .border-secondary"
-);
-const navLinksColor = document.querySelectorAll(
-  "nav a.text-slate-600, nav a.dark\\:text-slate-300"
-);
+const borderedElements = document.querySelectorAll(".border-secondary");
+const navLinksColor = document.querySelectorAll("nav");
 const profileBorders = document.querySelectorAll(
   ".relative.w-64.h-64.md\\:w-80.md\\:h-80.rounded-full.overflow-hidden.border-4"
 );
@@ -297,10 +293,10 @@ buttons.forEach((btn) => {
   });
 });
 
-  const ThemeSaved = localStorage.getItem("selectedTheme");
-  if (ThemeSaved) {
-    applyTheme(ThemeSaved);
-  }
+const ThemeSaved = localStorage.getItem("selectedTheme");
+if (ThemeSaved) {
+  applyTheme(ThemeSaved);
+}
 // end theme
 // start mobile menu
 mobileMenuBtn.onclick = () => {
@@ -360,7 +356,7 @@ resetBtn.addEventListener("click", () => {
   localStorage.removeItem("selectedFont");
 
   const defaultThemeId = "themePurple";
-  applyTheme(defaultThemeId); 
+  applyTheme(defaultThemeId);
 
   const colorButtons = document.querySelectorAll(".btn-color");
   colorButtons.forEach((btn) => btn.classList.remove("active"));
@@ -432,13 +428,13 @@ window.addEventListener("resize", updateSlider);
 updateSlider();
 // end slider
 // Start statistics-section
-counters.forEach(counter => {
+counters.forEach((counter) => {
   const targetText = counter.textContent.trim();
-  const target = parseInt(targetText.replace(/\D/g, ''));
+  const target = parseInt(targetText.replace(/\D/g, ""));
   let count = 0;
   const duration = 3000;
   const stepTime = 50;
-  const steps = duration / stepTime; 
+  const steps = duration / stepTime;
   const increment = target / steps;
 
   const interval = setInterval(() => {
@@ -447,7 +443,7 @@ counters.forEach(counter => {
       counter.textContent = target;
       clearInterval(interval);
     } else {
-      counter.textContent = Math.ceil(count)
+      counter.textContent = Math.ceil(count);
     }
   }, stepTime);
 });
