@@ -12,22 +12,6 @@ const settingsSidebar = document.getElementById("settings-sidebar");
 const closeSettings = document.getElementById("close-settings");
 const buttons = document.querySelectorAll("button.btn-color");
 const savedTheme = localStorage.getItem("theme");
-const bgGradientToL = document.querySelectorAll(".bg-gradient-to-l");
-const bgLinearToR = document.querySelectorAll(".bg-linear-to-r");
-const textSecondary = document.querySelectorAll(".text-secondary");
-const bgLinearToBR = document.querySelectorAll(".bg-linear-to-br");
-const bgGradientSmall = document.querySelectorAll(".w-16.bg-gradient-to-br");
-const textPrimaryBold = document.querySelectorAll(".text-primary.font-bold");
-const borderedElements = document.querySelectorAll(".border-secondary");
-const navLinksColor = document.querySelectorAll("nav");
-const profileBorders = document.querySelectorAll(
-  ".relative.w-64.h-64.md\\:w-80.md\\:h-80.rounded-full.overflow-hidden.border-4"
-);
-const profileGradientRings = document.querySelectorAll(
-  ".absolute.-inset-3.bg-gradient-to-br, .absolute.-inset-2.bg-gradient-to-br"
-);
-const animatedRings = document.querySelectorAll("#animation");
-const animatedRings2 = document.querySelectorAll("#animation2");
 const mobileMenuBtn = document.querySelector("#mobile-menu-toggle");
 const navLink = document.querySelector(".nav-links");
 const fontButtons = document.querySelectorAll(".font-option");
@@ -178,125 +162,44 @@ scrollBtn.addEventListener("click", () => {
 });
 // end scroll to top
 // start theme
-const gradients = {
-  themeBlue: {
-    bgGradientToL: "linear-gradient(to left, #3498db, #85c1e9)",
-    bgLinearToR: "linear-gradient(to right, #3498db, #85c1e9)",
-    bgLinearToBR: "linear-gradient(to bottom right, #3498db, #85c1e9)",
-    bgGradientSmall: "linear-gradient(to bottom right, #3498db, #85c1e9)",
-    textSecondary: "#3498db",
-    textPrimaryBold: "#3498db",
-    borderColor: "#3498db",
-    navColor: "#3498db",
-  },
-  themeGreen: {
-    bgGradientToL: "linear-gradient(to left, #2ecc71, #82e0aa)",
-    bgLinearToR: "linear-gradient(to right, #2ecc71, #82e0aa)",
-    bgLinearToBR: "linear-gradient(to bottom right, #2ecc71, #82e0aa)",
-    bgGradientSmall: "linear-gradient(to bottom right, #2ecc71, #82e0aa)",
-    textSecondary: "#2ecc71",
-    textPrimaryBold: "#2ecc71",
-    borderColor: "#2ecc71",
-    navColor: "#2ecc71",
-  },
-  themeOrange: {
-    bgGradientToL: "linear-gradient(to left, #e67e22, #f5b041)",
-    bgLinearToR: "linear-gradient(to right, #e67e22, #f5b041)",
-    bgLinearToBR: "linear-gradient(to bottom right, #e67e22, #f5b041)",
-    bgGradientSmall: "linear-gradient(to bottom right, #e67e22, #f5b041)",
-    textSecondary: "#e67e22",
-    textPrimaryBold: "#e67e22",
-    borderColor: "#e67e22",
-    navColor: "#e67e22",
-  },
-  themePurple: {
-    bgGradientToL: "linear-gradient(to left, #9b59b6, #d2b4de)",
-    bgLinearToR: "linear-gradient(to right, #9b59b6, #d2b4de)",
-    bgLinearToBR: "linear-gradient(to bottom right, #9b59b6, #d2b4de)",
-    bgGradientSmall: "linear-gradient(to bottom right, #9b59b6, #d2b4de)",
-    textSecondary: "#9b59b6",
-    textPrimaryBold: "#9b59b6",
-    borderColor: "#9b59b6",
-    navColor: "#9b59b6",
-  },
-  themeYellow: {
-    bgGradientToL: "linear-gradient(to left, #f1c40f, #f7dc6f)",
-    bgLinearToR: "linear-gradient(to right, #f1c40f, #f7dc6f)",
-    bgLinearToBR: "linear-gradient(to bottom right, #f1c40f, #f7dc6f)",
-    bgGradientSmall: "linear-gradient(to bottom right, #f1c40f, #f7dc6f)",
-    textSecondary: "#f1c40f",
-    textPrimaryBold: "#f1c40f",
-    borderColor: "#f1c40f",
-    navColor: "#f1c40f",
-  },
-  themePink: {
-    bgGradientToL: "linear-gradient(to left, #ff69b4, #ffaad1)",
-    bgLinearToR: "linear-gradient(to right, #ff69b4, #ffaad1)",
-    bgLinearToBR: "linear-gradient(to bottom right, #ff69b4, #ffaad1)",
-    bgGradientSmall: "linear-gradient(to bottom right, #ff69b4, #ffaad1)",
-    textSecondary: "#ff69b4",
-    textPrimaryBold: "#ff69b4",
-    borderColor: "#ff69b4",
-    navColor: "#ff69b4",
-  },
+const root = document.documentElement;
+const DEFAULT_THEME = "themePurple";
+const colorBtns = document.querySelectorAll(".btn-color");
+
+const themes = {
+  themeBlue: ["#1E9FE4", "#6EC6F2"],
+  themeGreen: ["#0BA976", "#5ED6B3"],
+  themeOrange: ["#F35F51", "#F8A097"],
+  themePurple: ["#7C5FF4", "#B7A6FA"],
+  themeYellow: ["#F07D0C", "#F6B26B"],
+  themePink: ["#F14151", "#F7A1A9"],
 };
 
-function applyTheme(themeId) {
-  const theme = gradients[themeId];
-  if (!theme) return;
+function applyTheme(id) {
+  if (!themes[id]) return;
 
-  bgGradientToL.forEach((e) => (e.style.backgroundImage = theme.bgGradientToL));
-  bgLinearToR.forEach((e) => (e.style.backgroundImage = theme.bgLinearToR));
-  bgLinearToBR.forEach((e) => (e.style.backgroundImage = theme.bgLinearToBR));
-  bgGradientSmall.forEach(
-    (e) => (e.style.backgroundImage = theme.bgGradientSmall)
+  const [p, s] = themes[id];
+  root.style.setProperty("--color-primary", p);
+  root.style.setProperty("--color-secondary", s);
+  localStorage.setItem("themeColor", id);
+
+  colorBtns.forEach((b) =>
+    b.classList.toggle("active", b.id === id)
   );
-  textSecondary.forEach((e) =>
-    e.style.setProperty("color", theme.textSecondary, "important")
-  );
-  textPrimaryBold.forEach((e) =>
-    e.style.setProperty("color", theme.textPrimaryBold, "important")
-  );
-  borderedElements.forEach((e) =>
-    e.style.setProperty("border-color", theme.borderColor, "important")
-  );
-  profileBorders.forEach((e) =>
-    e.style.setProperty("border-color", theme.borderColor, "important")
-  );
-  navLinks.forEach((e) =>
-    e.style.setProperty("color", theme.navColor, "important")
-  );
-  profileGradientRings.forEach((e) => {
-    e.style.backgroundImage = theme.bgLinearToBR;
-  });
-  animatedRings.forEach((e, index) => {
-    if (index === 0) {
-      e.style.borderColor = theme.borderColor + "4D";
-    } else {
-      e.style.borderColor = theme.borderColor + "33";
-    }
-  });
-  animatedRings2.forEach((e, index) => {
-    if (index === 0) {
-      e.style.borderColor = theme.borderColor + "4D";
-    } else {
-      e.style.borderColor = theme.borderColor + "33";
-    }
-  });
 }
 
-buttons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const themeId = btn.id;
-    applyTheme(themeId);
-    localStorage.setItem("selectedTheme", themeId);
-  });
+colorBtns.forEach((btn) => {
+  btn.onclick = () => applyTheme(btn.id);
 });
 
-const ThemeSaved = localStorage.getItem("selectedTheme");
-if (ThemeSaved) {
-  applyTheme(ThemeSaved);
-}
+const saved = localStorage.getItem("themeColor") || DEFAULT_THEME;
+applyTheme(saved);
+
+resetBtn?.addEventListener("click", () => {
+  localStorage.removeItem("themeColor");
+  applyTheme(DEFAULT_THEME);
+});
+
 // end theme
 // start mobile menu
 mobileMenuBtn.onclick = () => {
